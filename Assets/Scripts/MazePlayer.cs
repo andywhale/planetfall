@@ -10,44 +10,22 @@ using Gvr.Internal;
 public class MazePlayer : MonoBehaviour {
 
     Rigidbody rb;
-    Transform transform;
-    Quaternion startCameraRotation;
+    Transform playerTransform;
     GameObject mainCamera;
-    GameObject playerCamera;
-    GameObject birdseyeCamera;
+    GameObject player;
     GameObject maze;
-    const int THRUST = 5;
     const float SPEED = 0.02f;
-    const float ROTATIONSPEED = 0.005f;
-    bool birdseye = false;
 
-    bool moveUp = false;
-    bool moveDown = false;
-    bool moveLeft = false;
-    bool moveRight = false;
-
+    bool moveForward = false;
     string moveDirection = "forward";
 
-    float playerRotation = 0.0f;
-    bool moveForward = false;
-
-    // Use this for initialization
     void Start()
     {
         maze = GameObject.Find("Maze");
         mainCamera = GameObject.Find("PlayerCamera");
-        startCameraRotation = mainCamera.GetComponent<Transform>().rotation;
-        playerCamera = GameObject.Find("PlayerContainer");
-        birdseyeCamera = GameObject.Find("BirdseyeCamera");
+        player = GameObject.Find("PlayerContainer");
         rb = GetComponent<Rigidbody>();
-        transform = GetComponent<Transform>();
-    }
-
-    public void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Space))
-            //SwitchCamera();
-        //StartRotation(currentRotation.eulerAngles.y - startCameraRotation.eulerAngles.y);
+        playerTransform = GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -62,125 +40,12 @@ public class MazePlayer : MonoBehaviour {
         {
             EndMoveForward();
         }
-        //TranslateKeysToMovement();
-        playerCamera.GetComponent<Transform>().position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        playerCamera.GetComponent<Transform>().rotation = transform.rotation;
-        //if (birdseye)
-        //{
-        //    BirdseyeMovement();
-        //}
-        //else
-        //{
-            if (!Mathf.Approximately(playerRotation, 0.0f))
-                RotatePlayer();
-            if (moveForward)
-                JustMove();
-            else
-                ResetMovement();
-            //FirstPersonMovement();
-        //}
-    }
-
-    void TranslateKeysToMovement()
-    {
-        if (Input.GetKeyDown("up"))
-        {
-            SetMoveUp();
-        } else if (Input.GetKeyDown("down"))
-        {
-            SetMoveDown();
-        } else if (Input.GetKeyDown("left"))
-        {
-            SetMoveLeft();
-        } else if (Input.GetKeyDown("right"))
-        {
-            SetMoveRight();
-        }
-        else if (Input.GetKeyUp("up") || Input.GetKeyUp("down") || Input.GetKeyUp("left") || Input.GetKeyUp("right"))
-        {
-            ResetMove();
-        }
-    }
-
-    public void SetMoveUp()
-    {
-        ResetMove();
-        moveUp = true;
-    }
-
-    public void SetMoveDown()
-    {
-        ResetMove();
-        if (birdseye)
-            moveDown = true;
+        player.GetComponent<Transform>().position = new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z);
+        player.GetComponent<Transform>().rotation = playerTransform.rotation;
+        if (moveForward)
+            JustMove();
         else
-            moveUp = true;
-    }
-
-    public void SetMoveLeft()
-    {
-        ResetMove();
-        moveLeft = true;
-    }
-
-    public void SetMoveRight()
-    {
-        ResetMove();
-        moveRight = true;
-    }
-
-    public void ResetMove()
-    {
-
-        moveUp = false;
-        moveDown = false;
-        moveLeft = false;
-        moveRight = false;
-    }
-
-    void BirdseyeMovement()
-    {
-        if (moveUp)
-        {
-            BirdseyeMoveUp();
-        }
-        else if (moveDown)
-        {
-            BirdseyeMoveDown();
-        }
-        else if (moveLeft)
-        {
-            BirdseyeMoveLeft();
-        }
-        else if (moveRight)
-        {
-            BirdseyeMoveRight();
-        }
-        else
-        {
             ResetMovement();
-        }
-    }
-
-    void FirstPersonMovement()
-    {
-        if (moveUp)
-        {
-            MoveUp();
-        }
-        if (moveDown)
-        {
-            MoveDown();
-        }
-        if (moveLeft)
-        {
-            TurnLeft();
-        }
-        if (moveRight)
-        {
-            TurnRight();
-        }
-        ResetMovement();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -193,45 +58,19 @@ public class MazePlayer : MonoBehaviour {
 
     void NextLevel()
     {
-        if (!birdseye)
-        {
-            birdseye = false;
-            //SwitchCamera();
-        }
+        GameObject restartObject = GameObject.Find("Restart");
         if (Random.Range(0, 2) == 0)
         {
-            maze.GetComponent<MazeScript>().increaseXSize();
+            restartObject.GetComponent<Restart>().increaseXSize();
         }
         else
         {
-            maze.GetComponent<MazeScript>().increaseYSize();
+            restartObject.GetComponent<Restart>().increaseYSize();
         }
-        GameObject.Find("Restart").GetComponent<Restart>().DelayedRestartGame();
+        restartObject.GetComponent<Restart>().DelayedRestartGame();
     }
 
-    public void JustMove()
-    {
-        //Quaternion currentRotation = mainCamera.GetComponent<Transform>().rotation;
-        //float angle = currentRotation.eulerAngles.y;
-        //transform.position += (transform.TransformDirection(0, angle, 0) * SPEED);
-        switch (moveDirection)
-        {
-            case "forward":
-                transform.position -= (transform.forward * SPEED);
-                break;
-            case "back":
-                transform.position += (transform.forward * SPEED);
-                break;
-            case "left":
-                transform.position -= (transform.right * SPEED);
-                break;
-            case "right":
-                transform.position += (transform.right * SPEED);
-                break;
-        }
-    }
-
-    public void IdentifyDirection()
+    private void IdentifyDirection()
     {
         Quaternion currentRotation = mainCamera.GetComponent<Transform>().rotation;
         float angle = currentRotation.eulerAngles.y;
@@ -257,24 +96,26 @@ public class MazePlayer : MonoBehaviour {
         }
     }
 
-    public void MoveUp()
+    private void JustMove()
     {
-        transform.position += (transform.forward * SPEED);
-    }
-
-    public void MoveDown()
-    {
-        transform.position -= (transform.forward * SPEED);
-    }
-
-    public void TurnLeft()
-    {
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.eulerAngles.y - SPEED * 50, transform.rotation.z);
-    }
-
-    public void TurnRight()
-    {
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.eulerAngles.y + SPEED * 50, transform.rotation.z);
+        //Quaternion currentRotation = mainCamera.GetComponent<Transform>().rotation;
+        //float angle = currentRotation.eulerAngles.y;
+        //playerTransform.position += (playerTransform.TransformDirection(0, angle, 0) * SPEED);
+        switch (moveDirection)
+        {
+            case "forward":
+                playerTransform.position -= (playerTransform.forward * SPEED);
+                break;
+            case "back":
+                playerTransform.position += (playerTransform.forward * SPEED);
+                break;
+            case "left":
+                playerTransform.position -= (playerTransform.right * SPEED);
+                break;
+            case "right":
+                playerTransform.position += (playerTransform.right * SPEED);
+                break;
+        }
     }
 
     public void StartMoveForward()
@@ -287,62 +128,10 @@ public class MazePlayer : MonoBehaviour {
         moveForward = false;
     }
 
-    public void StartRotation(float pointerPlayerRotation)
-    {
-        playerRotation = pointerPlayerRotation;
-    }
-
-    public void EndRotation()
-    {
-        playerRotation = 0.0f;
-    }
-
-    public void RotatePlayer()
-    {
-        Debug.Log(transform.eulerAngles.y);
-        Debug.Log(playerRotation);
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.eulerAngles.y + playerRotation * ROTATIONSPEED, transform.rotation.z);
-        EndRotation();
-    }
-
-    public void BirdseyeMoveUp()
-    {
-        rb.velocity = new Vector3(0, rb.velocity.y, THRUST);
-    }
-
-    public void BirdseyeMoveDown()
-    {
-        rb.velocity = new Vector3(0, rb.velocity.y, -THRUST);
-    }
-
-    public void BirdseyeMoveLeft()
-    {
-        rb.velocity = new Vector3(-THRUST, rb.velocity.y, 0);
-    }
-
-    public void BirdseyeMoveRight()
-    {
-        rb.velocity = new Vector3(THRUST, rb.velocity.y, 0);
-    }
-
     public void ResetMovement()
     {
-        transform.position = transform.position;
+        playerTransform.position = playerTransform.position;
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
     }
-    public void SwitchCamera()
-    {
-        if (birdseye)
-        {
-            birdseye = false;
-            birdseyeCamera.GetComponent<Camera>().enabled = false;
-            playerCamera.GetComponent<Camera>().enabled = true;
-        }
-        else
-        {
-            birdseye = true;
-            birdseyeCamera.GetComponent<Camera>().enabled = true;
-            playerCamera.GetComponent<Camera>().enabled = false;
-        }
-    }
+
 }

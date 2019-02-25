@@ -12,8 +12,8 @@ public class MazeScript : MonoBehaviour
     [SerializeField] GameObject start;
     float wallLength = 1.0f;
     private float initialYPos = 0f;
-    int xSize = 10;
-    int ySize = 10;
+    int xSize = 4;
+    int ySize = 4;
     Vector3 initialPos;
     GameObject wallHolder;
     Cell[] cells;
@@ -30,6 +30,9 @@ public class MazeScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GameObject restartObject = GameObject.Find("Restart");
+        xSize = restartObject.GetComponent<Restart>().GetNextLevelXSize();
+        ySize = restartObject.GetComponent<Restart>().GetNextLevelYSize();
         CreateWalls();
     }
 
@@ -149,16 +152,7 @@ public class MazeScript : MonoBehaviour
 
     void BreakWall()
     {
-        //if (Random.Range(0, 4) == 1)
-        //{
-        //    Transform transformPositionOfWallToBreak = cells[currentCell].GetWallToBreak(wallToBreak).GetComponent<Transform>();
-        //    transformPositionOfWallToBreak.localScale = new Vector3(0.1f, 1, 1);
-        //    transformPositionOfWallToBreak.position = new Vector3(transformPositionOfWallToBreak.position.x, 1, transformPositionOfWallToBreak.position.z);
-        //}
-        //else
-        //{
-            Destroy(cells[currentCell].GetWallToBreak(wallToBreak));
-        //}
+        Destroy(cells[currentCell].GetWallToBreak(wallToBreak));
     }
 
     void FindNeighbour()
@@ -238,15 +232,5 @@ public class MazeScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    }
-
-    public void increaseYSize()
-    {
-        ySize++;
-    }
-
-    public void increaseXSize()
-    {
-        xSize++;
     }
 }
