@@ -14,6 +14,7 @@ public class MazePlayer : MonoBehaviour {
     GameObject mainCamera;
     GameObject player;
     GameObject maze;
+    GameObject gameManager;
     const float SPEED = 0.02f;
 
     bool moveForward = false;
@@ -26,6 +27,7 @@ public class MazePlayer : MonoBehaviour {
         player = GameObject.Find("PlayerContainer");
         rb = GetComponent<Rigidbody>();
         playerTransform = GetComponent<Transform>();
+        gameManager = GameObject.Find("GameManager");
     }
 
     // Update is called once per frame
@@ -52,22 +54,8 @@ public class MazePlayer : MonoBehaviour {
     {
         if (collision.gameObject.name == "Goal")
         {
-            NextLevel();
+            gameManager.GetComponent<GameManager>().NextLevel();
         }
-    }
-
-    void NextLevel()
-    {
-        GameObject restartObject = GameObject.Find("Restart");
-        if (Random.Range(0, 2) == 0)
-        {
-            restartObject.GetComponent<Restart>().increaseXSize();
-        }
-        else
-        {
-            restartObject.GetComponent<Restart>().increaseYSize();
-        }
-        restartObject.GetComponent<Restart>().DelayedRestartGame();
     }
 
     private void IdentifyDirection()

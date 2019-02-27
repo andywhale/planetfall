@@ -30,9 +30,9 @@ public class MazeScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        GameObject restartObject = GameObject.Find("Restart");
-        xSize = restartObject.GetComponent<Restart>().GetNextLevelXSize();
-        ySize = restartObject.GetComponent<Restart>().GetNextLevelYSize();
+        GameObject gameManager = GameObject.Find("GameManager");
+        xSize = gameManager.GetComponent<GameManager>().GetNextLevelXSize();
+        ySize = gameManager.GetComponent<GameManager>().GetNextLevelYSize();
         CreateWalls();
     }
 
