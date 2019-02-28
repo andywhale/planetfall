@@ -8,6 +8,9 @@ TagManager:
   - LevelUI
   - SettingsUI
   - TimerUI
+  - GameOverUI
+  - GlassPanel
+  - LevelUIText
   layers:
   - Default
   - TransparentFX

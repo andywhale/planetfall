@@ -54,7 +54,12 @@ public class GameManager : MonoBehaviour
         if (GameIsOver())
             return;
         level++;
-        levelUI.text = "Ship " + level.ToString().PadLeft(3, '0');
+
+        GameObject[] glassPanelsLevelText = GameObject.FindGameObjectsWithTag("LevelUIText");
+        for (var i = 0; i < glassPanelsLevelText.Length; i++)
+        {
+            glassPanelsLevelText[i].GetComponent<Text>().text = "Ship " + level.ToString().PadLeft(4, '0');
+        }
         IncreaseLevelSize();
         IncreaseTime();
         levelStartTime = timer;
@@ -66,7 +71,7 @@ public class GameManager : MonoBehaviour
         if (Mathf.Approximately(timer, 0.0f) || timer < 0.0f)
         {
             gameOver = true;
-            GameObject.Find("GameOverCanvas").GetComponent<Canvas>().enabled = true;
+            SetGameOverUIOn();
         }
         else
         {
@@ -85,7 +90,6 @@ public class GameManager : MonoBehaviour
 
     void UpdateTimerUI()
     {
-        timerUI.text = Mathf.Round(timer).ToString();
         GameObject[] timers = GameObject.FindGameObjectsWithTag("TimerUI");
         for (var i = 0; i < timers.Length; i++)
         {
@@ -95,7 +99,7 @@ public class GameManager : MonoBehaviour
 
     public void ReloadMaze()
     {
-        GameObject.Find("GameOverCanvas").GetComponent<Canvas>().enabled = false;
+        SetGameOverUIOff();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 
@@ -139,6 +143,35 @@ public class GameManager : MonoBehaviour
     private void IncreaseXSize()
     {
         nextXSize++;
+    }
+
+    private void SetGameOverUIOn()
+    {
+        GameObject[] glassPanels = GameObject.FindGameObjectsWithTag("GameOverUI");
+        for (var i = 0; i < glassPanels.Length; i++)
+        {
+            glassPanels[i].GetComponent<Canvas>().enabled = true;
+        }
+        //GameObject[] glassPanelsLevel = GameObject.FindGameObjectsWithTag("LevelUI");
+        //for (var i = 0; i < glassPanels.Length; i++)
+        //{
+        //    glassPanelsLevel[i].GetComponent<Canvas>().enabled = false;
+        //}
+
+    }
+
+    private void SetGameOverUIOff()
+    {
+        GameObject[] glassPanels = GameObject.FindGameObjectsWithTag("GameOverUI");
+        for (var i = 0; i < glassPanels.Length; i++)
+        {
+            glassPanels[i].GetComponent<Canvas>().enabled = false;
+        }
+        //GameObject[] glassPanelsLevel = GameObject.FindGameObjectsWithTag("LevelUI");
+        //for (var i = 0; i < glassPanels.Length; i++)
+        //{
+        //    glassPanelsLevel[i].GetComponent<Canvas>().enabled = true;
+        //}
     }
 
 }
