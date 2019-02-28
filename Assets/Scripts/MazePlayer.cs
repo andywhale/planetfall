@@ -13,13 +13,11 @@ public class MazePlayer : MonoBehaviour {
     Transform playerTransform;
     GameObject mainCamera;
     GameObject player;
-    GameObject maze;
     GameObject gameManager;
     const float SPEED = 1f;
 
     void Start()
     {
-        maze = GameObject.Find("Maze");
         mainCamera = GameObject.Find("PlayerCamera");
         player = GameObject.Find("PlayerContainer");
         rb = GetComponent<Rigidbody>();
@@ -35,7 +33,14 @@ public class MazePlayer : MonoBehaviour {
 
         if (GvrControllerInput.ClickButton)
         {
-            JustMove();
+            if (gameManager.GetComponent<GameManager>().GameIsOver())
+                gameManager.GetComponent<GameManager>().RestartCurrentLevel();
+            else
+                JustMove();
+        }
+        else if (GvrControllerInput.AppButton)
+        {
+            gameManager.GetComponent<GameManager>().ResetGame();
         }
         else
         {
@@ -53,7 +58,8 @@ public class MazePlayer : MonoBehaviour {
 
     private void JustMove()
     {
-        playerTransform.position = playerTransform.position + mainCamera.GetComponent<Transform>().transform.forward * SPEED * Time.deltaTime;
+        Vector3 newPosition = playerTransform.position + mainCamera.GetComponent<Transform>().transform.forward * SPEED * Time.deltaTime;
+        playerTransform.position = new Vector3(newPosition.x, playerTransform.position.y, newPosition.z);
     }
 
     public void ResetMovement()

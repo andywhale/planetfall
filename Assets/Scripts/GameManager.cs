@@ -19,43 +19,43 @@ public class GameManager : MonoBehaviour
     private int currentships = 5;
     private int level = 1;
 
-    private bool active = true;
+    private bool gameOver = false;
 
     private float levelStartTime;
 
     private void Start()
     {
+        levelUI = GameObject.Find("Level").GetComponent<Text>();
         timerUI = GameObject.Find("Timer").GetComponent<Text>();
         timerBackground = GameObject.Find("TimerBackground").GetComponent<Image>();
-        levelUI = GameObject.Find("Level").GetComponent<Text>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        UpdateTimer();
+        if (!GameIsOver())
+            UpdateTimer();
     }
 
     public void RestartCurrentLevel()
     {
         timer = levelStartTime;
+        gameOver = false;
         ReloadMaze();
+    }
+
+    public bool GameIsOver()
+    {
+        return gameOver;
     }
 
     public void NextLevel()
     {
-        if (!active)
+        if (GameIsOver())
             return;
         level++;
         levelUI.text = "Ship " + level.ToString().PadLeft(3, '0');
-        if (Random.Range(0, 2) == 0)
-        {
-            IncreaseXSize();
-        }
-        else
-        {
-            IncreaseYSize();
-        }
+        IncreaseLevelSize();
         IncreaseTime();
         levelStartTime = timer;
         ReloadMaze();
@@ -63,13 +63,10 @@ public class GameManager : MonoBehaviour
 
     private void UpdateTimer()
     {
-        if (!active)
-            return;
         if (Mathf.Approximately(timer, 0.0f) || timer < 0.0f)
         {
-            active = false;
+            gameOver = true;
             GameObject.Find("GameOverCanvas").GetComponent<Canvas>().enabled = true;
-            Invoke("RestartGame", 5.0f);
         }
         else
         {
@@ -98,9 +95,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 
-    public void RestartGame()
+    public void ResetGame()
     {
-        active = true;
+        gameOver = false;
         nextXSize = 4;
         nextYSize = 4;
         timer = TIMERMAX;
@@ -118,12 +115,24 @@ public class GameManager : MonoBehaviour
         return nextYSize;
     }
 
-    public void IncreaseYSize()
+    public void IncreaseLevelSize()
+    {
+        if (Random.Range(0, 2) == 0)
+        {
+            IncreaseXSize();
+        }
+        else
+        {
+            IncreaseYSize();
+        }
+    }
+
+    private void IncreaseYSize()
     {
         nextYSize++;
     }
 
-    public void IncreaseXSize()
+    private void IncreaseXSize()
     {
         nextXSize++;
     }
