@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private int nextYSize = 4;
 
     private float TIMERMAX = 90.0f;
-    private float timer = 40.0f;
+    private float timer = 90.0f;
     private int TOTALSHIPS = 5;
     private int currentships = 5;
     private int level = 1;
@@ -86,7 +86,11 @@ public class GameManager : MonoBehaviour
     void UpdateTimerUI()
     {
         timerUI.text = Mathf.Round(timer).ToString();
-        timerBackground.fillAmount = timer / TIMERMAX;
+        GameObject[] timers = GameObject.FindGameObjectsWithTag("TimerUI");
+        for (var i = 0; i < timers.Length; i++)
+        {
+            timers[i].GetComponent<TimerScript>().UpdateTimer(timer, TIMERMAX);
+        }
     }
 
     public void ReloadMaze()

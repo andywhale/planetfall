@@ -7,6 +7,7 @@ TagManager:
   - UI
   - LevelUI
   - SettingsUI
+  - TimerUI
   layers:
   - Default
   - TransparentFX

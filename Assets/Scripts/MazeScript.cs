@@ -139,7 +139,7 @@ public class MazeScript : MonoBehaviour
             {
                 currentCell = Random.Range(0, totalCells);
                 // myPos = new Vector3(initialPos.x + (j * wallLength) - wallLength / 2, 0.0f, initialPos.z + (i * wallLength) - wallLength / 2);
-                player = Instantiate(player, new Vector3(initialPos.x, 0.0f, initialPos.z), Quaternion.identity);
+                player = Instantiate(player, new Vector3(initialPos.x + wallLength / 2, initialPos.y, initialPos.z - wallLength / 2), Quaternion.identity);
                 cells[currentCell].Visited();
                 visitedCells++;
                 startedBuilding = true;
