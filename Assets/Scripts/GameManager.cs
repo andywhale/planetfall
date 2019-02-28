@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour
     private int nextYSize = 4;
 
     private float TIMERMAX = 90.0f;
-    private float timer = 30.0f;
+    private float timer = 40.0f;
+    private int TOTALSHIPS = 5;
+    private int currentships = 5;
     private int level = 1;
 
     private bool active = true;
@@ -92,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     public void ReloadMaze()
     {
+        GameObject.Find("GameOverCanvas").GetComponent<Canvas>().enabled = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 

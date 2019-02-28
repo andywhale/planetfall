@@ -15,10 +15,7 @@ public class MazePlayer : MonoBehaviour {
     GameObject player;
     GameObject maze;
     GameObject gameManager;
-    const float SPEED = 0.02f;
-
-    bool moveForward = false;
-    string moveDirection = "forward";
+    const float SPEED = 1f;
 
     void Start()
     {
@@ -33,21 +30,17 @@ public class MazePlayer : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (GvrControllerInput.ClickButton)
-        {
-            IdentifyDirection();
-            StartMoveForward();
-        }
-        if (GvrControllerInput.ClickButtonUp)
-        {
-            EndMoveForward();
-        }
         player.GetComponent<Transform>().position = new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z);
         player.GetComponent<Transform>().rotation = playerTransform.rotation;
-        if (moveForward)
+
+        if (GvrControllerInput.ClickButton)
+        {
             JustMove();
+        }
         else
+        {
             ResetMovement();
+        }
     }
 
     void OnCollisionEnter(Collision collision)
@@ -58,62 +51,9 @@ public class MazePlayer : MonoBehaviour {
         }
     }
 
-    private void IdentifyDirection()
-    {
-        Quaternion currentRotation = mainCamera.GetComponent<Transform>().rotation;
-        float angle = currentRotation.eulerAngles.y;
-        if (angle > 290)
-        {
-            moveDirection = "back";
-        }
-        else if (angle > 230)
-        {
-            moveDirection = "left";
-        }
-        else if (angle > 120)
-        {
-            moveDirection = "forward";
-        }
-        else if (angle > 50)
-        {
-            moveDirection = "right";
-        }
-        else
-        {
-            moveDirection = "back";
-        }
-    }
-
     private void JustMove()
     {
-        //Quaternion currentRotation = mainCamera.GetComponent<Transform>().rotation;
-        //float angle = currentRotation.eulerAngles.y;
-        //playerTransform.position += (playerTransform.TransformDirection(0, angle, 0) * SPEED);
-        switch (moveDirection)
-        {
-            case "forward":
-                playerTransform.position -= (playerTransform.forward * SPEED);
-                break;
-            case "back":
-                playerTransform.position += (playerTransform.forward * SPEED);
-                break;
-            case "left":
-                playerTransform.position -= (playerTransform.right * SPEED);
-                break;
-            case "right":
-                playerTransform.position += (playerTransform.right * SPEED);
-                break;
-        }
-    }
-
-    public void StartMoveForward()
-    {
-        moveForward = true;
-    }
-
-    public void EndMoveForward()
-    {
-        moveForward = false;
+        playerTransform.position = playerTransform.position + mainCamera.GetComponent<Transform>().transform.forward * SPEED * Time.deltaTime;
     }
 
     public void ResetMovement()
