@@ -9,6 +9,7 @@ public class MazeScript : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject goal;
     [SerializeField] GameObject floor;
+    [SerializeField] GameObject roof;
     [SerializeField] GameObject start;
     float wallLength = 1.0f;
     private float initialYPos = 0f;

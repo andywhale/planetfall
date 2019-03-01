@@ -737,7 +737,7 @@ Prefab:
         type: 2}
       propertyPath: goal
       value: 
-      objectReference: {fileID: 1767120322924980, guid: c550d33a796534777b4014d2027a36a7,
+      objectReference: {fileID: 1407893858235106, guid: df5f81b32924442ffbc0ea23ba625507,
         type: 2}
     - target: {fileID: 114087239956522150, guid: faee4bce6a798462ebc8de13b4305167,
         type: 2}
@@ -767,7 +767,7 @@ Prefab:
         type: 2}
       propertyPath: walls.Array.data[2]
       value: 
-      objectReference: {fileID: 1537618557128048, guid: c0657a2e0e7b244fdbdeb913e93dabe5,
+      objectReference: {fileID: 1495026642127886, guid: f33c6a0aad71e4d38bd62aed1b9029d5,
         type: 2}
     - target: {fileID: 114087239956522150, guid: faee4bce6a798462ebc8de13b4305167,
         type: 2}
@@ -779,8 +779,13 @@ Prefab:
         type: 2}
       propertyPath: start
       value: 
-      objectReference: {fileID: 1312557492361518, guid: c007d9d84087c4453aa23f00572d9419,
+      objectReference: {fileID: 1977316324995884, guid: 69979aa50b7294b93ac6ad7364d507f6,
         type: 2}
+    - target: {fileID: 114087239956522150, guid: faee4bce6a798462ebc8de13b4305167,
+        type: 2}
+      propertyPath: roof
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faee4bce6a798462ebc8de13b4305167, type: 2}
   m_IsPrefabAsset: 0
