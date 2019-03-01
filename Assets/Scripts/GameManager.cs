@@ -6,15 +6,11 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-    Text levelUI;
-    Text timerUI;
-    Image timerBackground;
-
     private int nextXSize = 4;
     private int nextYSize = 4;
 
     private float TIMERMAX = 90.0f;
-    private float timer = 90.0f;
+    private float timer = 80.0f;
     private int TOTALSHIPS = 5;
     private int currentships = 5;
     private int level = 1;
@@ -25,9 +21,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        levelUI = GameObject.Find("Level").GetComponent<Text>();
-        timerUI = GameObject.Find("Timer").GetComponent<Text>();
-        timerBackground = GameObject.Find("TimerBackground").GetComponent<Image>();
+
     }
 
     // Update is called once per frame
@@ -44,6 +38,11 @@ public class GameManager : MonoBehaviour
         ReloadMaze();
     }
 
+    public int GetCurrentLevel()
+    {
+        return level;
+    }
+
     public bool GameIsOver()
     {
         return gameOver;
@@ -56,6 +55,7 @@ public class GameManager : MonoBehaviour
         level++;
 
         GameObject[] glassPanelsLevelText = GameObject.FindGameObjectsWithTag("LevelUIText");
+        Debug.Log(glassPanelsLevelText.Length);
         for (var i = 0; i < glassPanelsLevelText.Length; i++)
         {
             glassPanelsLevelText[i].GetComponent<Text>().text = "Ship " + level.ToString().PadLeft(4, '0');
@@ -152,11 +152,11 @@ public class GameManager : MonoBehaviour
         {
             glassPanels[i].GetComponent<Canvas>().enabled = true;
         }
-        //GameObject[] glassPanelsLevel = GameObject.FindGameObjectsWithTag("LevelUI");
-        //for (var i = 0; i < glassPanels.Length; i++)
-        //{
-        //    glassPanelsLevel[i].GetComponent<Canvas>().enabled = false;
-        //}
+        GameObject[] glassPanelsLevel = GameObject.FindGameObjectsWithTag("LevelUI");
+        for (var i = 0; i < glassPanels.Length; i++)
+        {
+            glassPanelsLevel[i].GetComponent<Canvas>().enabled = false;
+        }
 
     }
 
@@ -167,11 +167,11 @@ public class GameManager : MonoBehaviour
         {
             glassPanels[i].GetComponent<Canvas>().enabled = false;
         }
-        //GameObject[] glassPanelsLevel = GameObject.FindGameObjectsWithTag("LevelUI");
-        //for (var i = 0; i < glassPanels.Length; i++)
-        //{
-        //    glassPanelsLevel[i].GetComponent<Canvas>().enabled = true;
-        //}
+        GameObject[] glassPanelsLevel = GameObject.FindGameObjectsWithTag("LevelUI");
+        for (var i = 0; i < glassPanels.Length; i++)
+        {
+            glassPanelsLevel[i].GetComponent<Canvas>().enabled = true;
+        }
     }
 
 }

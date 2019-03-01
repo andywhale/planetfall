@@ -32,20 +32,11 @@ public class MazePlayer : MonoBehaviour {
         player.GetComponent<Transform>().rotation = playerTransform.rotation;
 
         if (GvrControllerInput.ClickButton)
-        {
-            if (gameManager.GetComponent<GameManager>().GameIsOver())
-                gameManager.GetComponent<GameManager>().RestartCurrentLevel();
-            else
-                JustMove();
-        }
+            JustMove();
         else if (GvrControllerInput.AppButton)
-        {
-            gameManager.GetComponent<GameManager>().ResetGame();
-        }
+            gameManager.GetComponent<GameManager>().RestartCurrentLevel();
         else
-        {
             ResetMovement();
-        }
     }
 
     void OnCollisionEnter(Collision collision)
