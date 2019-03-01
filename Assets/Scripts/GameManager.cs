@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
+        levelStartTime = timer;
     }
 
     // Update is called once per frame

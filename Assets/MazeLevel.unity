@@ -737,7 +737,7 @@ Prefab:
         type: 2}
       propertyPath: goal
       value: 
-      objectReference: {fileID: 1650497582743384, guid: 3c78a86cd91464b498df37ca9a497c3e,
+      objectReference: {fileID: 1767120322924980, guid: c550d33a796534777b4014d2027a36a7,
         type: 2}
     - target: {fileID: 114087239956522150, guid: faee4bce6a798462ebc8de13b4305167,
         type: 2}
