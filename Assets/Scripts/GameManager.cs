@@ -53,13 +53,6 @@ public class GameManager : MonoBehaviour
         if (GameIsOver())
             return;
         level++;
-
-        GameObject[] glassPanelsLevelText = GameObject.FindGameObjectsWithTag("LevelUIText");
-        Debug.Log(glassPanelsLevelText.Length);
-        for (var i = 0; i < glassPanelsLevelText.Length; i++)
-        {
-            glassPanelsLevelText[i].GetComponent<Text>().text = "Ship " + level.ToString().PadLeft(4, '0');
-        }
         IncreaseLevelSize();
         IncreaseTime();
         levelStartTime = timer;

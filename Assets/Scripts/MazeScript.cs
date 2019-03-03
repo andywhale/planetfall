@@ -9,14 +9,15 @@ public class MazeScript : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject goal;
     [SerializeField] GameObject floor;
-    [SerializeField] GameObject roof;
     [SerializeField] GameObject start;
+    [SerializeField] GameObject powerUp;
     float wallLength = 1.0f;
     private float initialYPos = 0f;
     int xSize = 4;
     int ySize = 4;
     Vector3 initialPos;
     GameObject wallHolder;
+    GameObject gameManager;
     Cell[] cells;
     private int currentCell = 12;
     private int totalCells = 0;
@@ -26,15 +27,39 @@ public class MazeScript : MonoBehaviour
     private List<int> lastCells;
     private int backingUp = 0;
     string wallToBreak;
+    bool teleporterSwitchedOff = false;
 
 
     // Use this for initialization
     void Start()
     {
-        GameObject gameManager = GameObject.Find("GameManager");
+        gameManager = GameObject.Find("GameManager");
         xSize = gameManager.GetComponent<GameManager>().GetNextLevelXSize();
         ySize = gameManager.GetComponent<GameManager>().GetNextLevelYSize();
         CreateWalls();
+        //AddPowerUp();
+    }
+
+    private void FixedUpdate()
+    {
+        if (gameManager.GetComponent<GameManager>().GameIsOver())
+        {
+            if (!teleporterSwitchedOff)
+            {
+                Destroy(goal);
+                goal = Instantiate(start, new Vector3(initialPos.x + (xSize * wallLength) - wallLength, -0.4f, initialPos.z + (ySize * wallLength) - (wallLength * 1.5f)), Quaternion.identity) as GameObject;
+                teleporterSwitchedOff = true;
+            }
+        }
+        else
+        {
+            teleporterSwitchedOff = false;
+        }
+    }
+
+    void AddPowerUp()
+    {
+        powerUp = Instantiate(powerUp, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength), 0f, initialPos.z + (Random.Range(0, ySize) * wallLength)), Quaternion.identity) as GameObject;
     }
 
     void CreateWalls()
