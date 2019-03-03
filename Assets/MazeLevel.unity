@@ -786,6 +786,12 @@ Prefab:
       propertyPath: roof
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114087239956522150, guid: faee4bce6a798462ebc8de13b4305167,
+        type: 2}
+      propertyPath: powerUp
+      value: 
+      objectReference: {fileID: 1885301230603502, guid: 8abc764b48c5140a0b9cea39a9563a0c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faee4bce6a798462ebc8de13b4305167, type: 2}
   m_IsPrefabAsset: 0

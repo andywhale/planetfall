@@ -71,7 +71,6 @@ public class GameManager : MonoBehaviour
         if (Mathf.Approximately(timer, 0.0f) || timer < 0.0f)
         {
             gameOver = true;
-            SetGameOverUIOn();
         }
         else
         {
@@ -99,7 +98,6 @@ public class GameManager : MonoBehaviour
 
     public void ReloadMaze()
     {
-        SetGameOverUIOff();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 
@@ -143,35 +141,6 @@ public class GameManager : MonoBehaviour
     private void IncreaseXSize()
     {
         nextXSize++;
-    }
-
-    private void SetGameOverUIOn()
-    {
-        GameObject[] glassPanels = GameObject.FindGameObjectsWithTag("GameOverUI");
-        for (var i = 0; i < glassPanels.Length; i++)
-        {
-            glassPanels[i].GetComponent<Canvas>().enabled = true;
-        }
-        GameObject[] glassPanelsLevel = GameObject.FindGameObjectsWithTag("LevelUI");
-        for (var i = 0; i < glassPanels.Length; i++)
-        {
-            glassPanelsLevel[i].GetComponent<Canvas>().enabled = false;
-        }
-
-    }
-
-    private void SetGameOverUIOff()
-    {
-        GameObject[] glassPanels = GameObject.FindGameObjectsWithTag("GameOverUI");
-        for (var i = 0; i < glassPanels.Length; i++)
-        {
-            glassPanels[i].GetComponent<Canvas>().enabled = false;
-        }
-        GameObject[] glassPanelsLevel = GameObject.FindGameObjectsWithTag("LevelUI");
-        for (var i = 0; i < glassPanels.Length; i++)
-        {
-            glassPanelsLevel[i].GetComponent<Canvas>().enabled = true;
-        }
     }
 
 }
