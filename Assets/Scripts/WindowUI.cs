@@ -21,7 +21,7 @@ public class WindowUI : MonoBehaviour
         {
             Text windowText = this.GetComponent<Text>();
             windowText.color = new Color32(255, 52, 0, 255);
-            windowText.text = "Your time has run out. Futile is hope. App button to perpetuate the hopeless cycle.";
+            windowText.text = "Time has run out. Hope is futile. The App button will only perpetuate this desperate cycle.";
             windowText.fontSize = 60;
         }
     }
