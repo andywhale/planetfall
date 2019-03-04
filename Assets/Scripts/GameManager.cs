@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private int nextYSize = 4;
 
     private float TIMERMAX = 180.0f;
-    private float timer = 80.0f;
+    private float timer = 40.0f;
     private int TOTALSHIPS = 5;
     private int currentships = 5;
     private int level = 1;
@@ -72,9 +72,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void IncreaseTime()
+    public void IncreaseTime()
     {
-        timer += (nextXSize * nextYSize / 5) * Random.Range(8, 13);
+        timer += (nextXSize * (nextYSize - 1));
         if (timer > TIMERMAX)
             timer = TIMERMAX;
         UpdateTimerUI();

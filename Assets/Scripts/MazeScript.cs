@@ -37,7 +37,7 @@ public class MazeScript : MonoBehaviour
         xSize = gameManager.GetComponent<GameManager>().GetNextLevelXSize();
         ySize = gameManager.GetComponent<GameManager>().GetNextLevelYSize();
         CreateWalls();
-        //AddPowerUp();
+        AddPowerUp();
     }
 
     private void FixedUpdate()
