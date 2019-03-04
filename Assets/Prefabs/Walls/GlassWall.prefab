@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 224706076135351368}
   - component: {fileID: 223846790854895974}
   - component: {fileID: 114944910762330936}
-  - component: {fileID: 114930789892675276}
+  - component: {fileID: 114645310607410580}
   m_Layer: 0
   m_Name: ShipCanvas
   m_TagString: LevelUI
@@ -533,6 +533,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Ship 00001
+--- !u!114 &114645310607410580
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1503474776100184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739800cd36aba44e9b04ce977e5784bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreReversedGraphics: 1
+  blockingObjects: 2
+  blockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &114672233080381630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -544,22 +560,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 565c5868bbba1426298abf35c43e8255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114930789892675276
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1503474776100184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &114944910762330936
 MonoBehaviour:
   m_ObjectHideFlags: 1

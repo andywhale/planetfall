@@ -16,7 +16,6 @@ public class PowerUpScript : MonoBehaviour {
 
     void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("OnCollisionEnter");
         if (collision.gameObject.CompareTag("Player"))
         {
             pastPosition = collision.gameObject.GetComponent<Transform>().position;
@@ -26,7 +25,6 @@ public class PowerUpScript : MonoBehaviour {
 
     void OnTriggerExit(Collider collision)
     {
-        Debug.Log("OnCollisionExit");
         if (collision.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);

@@ -224,6 +224,35 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 57655416}
   m_CullTransparentMesh: 0
+--- !u!1 &141156193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 141156194}
+  m_Layer: 0
+  m_Name: OverheadCameraObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &141156194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 141156193}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 16, z: 0}
+  m_LocalScale: {x: 0.1, y: 1, z: 0.80000097}
+  m_Children:
+  - {fileID: 231262144}
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,6 +409,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a4fe32fc1b9426bb1c868baebdf8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &231262144 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0,
+    type: 2}
+  m_PrefabInternal: {fileID: 2124422810}
 --- !u!1 &245115615
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,7 +801,7 @@ Prefab:
         type: 2}
       propertyPath: walls.Array.data[2]
       value: 
-      objectReference: {fileID: 1495026642127886, guid: f33c6a0aad71e4d38bd62aed1b9029d5,
+      objectReference: {fileID: 1545782394084426, guid: 97b98d7ff0b5642abae5ceb1c7b9073d,
         type: 2}
     - target: {fileID: 114087239956522150, guid: faee4bce6a798462ebc8de13b4305167,
         type: 2}
@@ -837,7 +871,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1117,7 +1151,7 @@ Transform:
   - {fileID: 1440887476}
   - {fileID: 338101699}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1440887476 stripped
 Transform:
@@ -1523,4 +1557,83 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &2124422810
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 141156194}
+    m_Modifications:
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119508126262910, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20442296697919434, guid: fae22018499244310a6ebf8fa47fccd0,
+        type: 2}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 8400000, guid: 8d97f127109394bb58ddcd54dcddb5a9, type: 2}
+    - target: {fileID: 20442296697919434, guid: fae22018499244310a6ebf8fa47fccd0,
+        type: 2}
+      propertyPath: m_projectionMatrixMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20442296697919434, guid: fae22018499244310a6ebf8fa47fccd0,
+        type: 2}
+      propertyPath: field of view
+      value: 26.991467
+      objectReference: {fileID: 0}
+    - target: {fileID: 20442296697919434, guid: fae22018499244310a6ebf8fa47fccd0,
+        type: 2}
+      propertyPath: near clip plane
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20442296697919434, guid: fae22018499244310a6ebf8fa47fccd0,
+        type: 2}
+      propertyPath: m_TargetEye
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fae22018499244310a6ebf8fa47fccd0, type: 2}
   m_IsPrefabAsset: 0
