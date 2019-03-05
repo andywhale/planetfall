@@ -11,8 +11,6 @@ public class GameManager : MonoBehaviour
 
     private float TIMERMAX = 180.0f;
     private float timer = 40.0f;
-    private int TOTALSHIPS = 5;
-    private int currentships = 5;
     private int level = 1;
 
     private bool gameOver = false;

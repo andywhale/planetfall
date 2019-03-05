@@ -15,6 +15,7 @@ public class MazeScript : MonoBehaviour
     [SerializeField] GameObject powerUp;
     float wallLength = 1.0f;
     private float initialYPos = 0f;
+    const float CORNERHEIGHT = -0.384f;
     int xSize = 3;
     int ySize = 3;
     Vector3 initialPos;
@@ -108,9 +109,6 @@ public class MazeScript : MonoBehaviour
             }
         }
 
-        const float CORNERHEIGHT = -0.384f;
-        Debug.Log(initialPos.x); // 1, 1: 0.5, 0.5 // 2, 2: -0.5, -0.5 // 3, 3: -0.5, -0.5 // 4, 4: -1.5, -1.5  
-        Debug.Log(initialPos.z);
         // Top right
         Instantiate(outerWallCorner, new Vector3(initialPos.x - wallLength / 2, CORNERHEIGHT, initialPos.z - wallLength), Quaternion.identity);
         // Top left
