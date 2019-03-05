@@ -11,6 +11,7 @@ public class MazeScript : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject goal;
     [SerializeField] GameObject floor;
+    [SerializeField] GameObject roof;
     [SerializeField] GameObject start;
     [SerializeField] GameObject powerUp;
     float wallLength = 1.0f;
@@ -122,6 +123,10 @@ public class MazeScript : MonoBehaviour
         floor = Instantiate(floor, new Vector3(initialPos.x + ((xSize * wallLength - wallLength)/2), -0.4f, initialPos.z + ((ySize * wallLength) / 2 - wallLength)), Quaternion.identity);
         Transform floorTransform = floor.GetComponent<Transform>();
         floorTransform.localScale = new Vector3((xSize * wallLength) / 10, floorTransform.localScale.y, (ySize * wallLength) / 10);
+
+        roof = Instantiate(roof, new Vector3(initialPos.x + ((xSize * wallLength - wallLength) / 2), 0.4f, initialPos.z + ((ySize * wallLength) / 2 - wallLength)), Quaternion.identity);
+        Transform roofTransform = roof.GetComponent<Transform>();
+        roofTransform.localScale = new Vector3((xSize * wallLength) / 10, floorTransform.localScale.y, (ySize * wallLength) / 10);
 
         CreateCells();
     }

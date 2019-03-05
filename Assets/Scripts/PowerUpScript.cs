@@ -30,7 +30,7 @@ public class PowerUpScript : MonoBehaviour {
             Destroy(gameObject);
             collision.gameObject.GetComponent<Transform>().position = pastPosition;
             collision.gameObject.GetComponent<Transform>().rotation = pastRotation;
-            gameManager.GetComponent<GameManager>().IncreaseTime();
+            gameManager.GetComponent<GameManager>().PowerUpFound();
         }
     }
 }

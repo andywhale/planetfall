@@ -795,7 +795,7 @@ Prefab:
         type: 2}
       propertyPath: walls.Array.data[1]
       value: 
-      objectReference: {fileID: 1607344197702980, guid: 6a08534dfec634754844f9d60bf31935,
+      objectReference: {fileID: 1916463029787626, guid: 6a08534dfec634754844f9d60bf31935,
         type: 2}
     - target: {fileID: 114087239956522150, guid: faee4bce6a798462ebc8de13b4305167,
         type: 2}
@@ -819,7 +819,8 @@ Prefab:
         type: 2}
       propertyPath: roof
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1048072961293030, guid: 12469d891c1364d5fb09ff2092fe93d1,
+        type: 2}
     - target: {fileID: 114087239956522150, guid: faee4bce6a798462ebc8de13b4305167,
         type: 2}
       propertyPath: powerUp

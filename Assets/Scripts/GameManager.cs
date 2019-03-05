@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     private float TIMERMAX = 180.0f;
     private float timer = 40.0f;
     private int level = 1;
+    private int currentScore;
+
+    const int SCOREPOWERUP = 500;
+    const int SCORENEXTLEVEL = 1000;
 
     private bool gameOver = false;
 
@@ -41,9 +45,20 @@ public class GameManager : MonoBehaviour
         return level;
     }
 
+    public int GetCurrentScore()
+    {
+        return currentScore;
+    }
+
     public bool GameIsOver()
     {
         return gameOver;
+    }
+
+    public void PowerUpFound()
+    {
+        IncreaseTime();
+        currentScore += SCOREPOWERUP;
     }
 
     public void NextLevel()
@@ -51,6 +66,7 @@ public class GameManager : MonoBehaviour
         if (GameIsOver())
             return;
         level++;
+        currentScore += level * SCORENEXTLEVEL * Mathf.RoundToInt(timer);
         IncreaseLevelSize();
         IncreaseTime();
         levelStartTime = timer;
@@ -99,6 +115,7 @@ public class GameManager : MonoBehaviour
         nextYSize = 4;
         timer = TIMERMAX;
         level = 1;
+        currentScore = 0;
         ReloadMaze();
     }
 
