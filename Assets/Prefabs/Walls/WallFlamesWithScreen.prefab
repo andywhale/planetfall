@@ -498,6 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34e5f3e58629d4af7891426891d68f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overheadCamera: {fileID: 0}
 --- !u!198 &198313681470943402
 ParticleSystem:
   m_ObjectHideFlags: 1

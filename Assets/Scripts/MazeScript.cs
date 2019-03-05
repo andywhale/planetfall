@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class MazeScript : MonoBehaviour
 {
     [SerializeField] GameObject[] walls = new GameObject[4];
+    [SerializeField] GameObject outerWall;
+    [SerializeField] GameObject outerWallCorner;
     [SerializeField] GameObject player;
     [SerializeField] GameObject goal;
     [SerializeField] GameObject floor;
@@ -13,8 +15,8 @@ public class MazeScript : MonoBehaviour
     [SerializeField] GameObject powerUp;
     float wallLength = 1.0f;
     private float initialYPos = 0f;
-    int xSize = 4;
-    int ySize = 4;
+    int xSize = 3;
+    int ySize = 3;
     Vector3 initialPos;
     GameObject wallHolder;
     GameObject gameManager;
@@ -70,13 +72,21 @@ public class MazeScript : MonoBehaviour
         initialPos = new Vector3((-xSize / 2) + wallLength / 2, initialYPos, (-ySize / 2) + wallLength / 2);
         Vector3 myPos = initialPos;
         GameObject tempWall;
+        GameObject wallType;
 
         for (int i = 0; i < ySize; i++)
         {
             for (int j = 0; j <= xSize; j++)
             {
+                if (j == 0 || j == xSize)
+                    wallType = outerWall;
+                else
+                    wallType = walls[Random.Range(0, walls.Length)];
                 myPos = new Vector3(initialPos.x + (j * wallLength) - wallLength / 2, initialYPos, initialPos.z + (i * wallLength) - wallLength / 2);
-                tempWall = Instantiate(walls[Random.Range(0, walls.Length)], myPos, Quaternion.identity) as GameObject;
+                Quaternion wallRotation = Quaternion.identity;
+                if (j == xSize)
+                    wallRotation = Quaternion.Euler(0.0f, 180f, 0.0f);
+                tempWall = Instantiate(wallType, myPos, wallRotation) as GameObject;
                 tempWall.transform.parent = wallHolder.transform;
             }
         }
@@ -85,11 +95,31 @@ public class MazeScript : MonoBehaviour
         {
             for (int j = 0; j < xSize; j++)
             {
+                if (i == 0 || i == ySize)
+                    wallType = outerWall;
+                else
+                    wallType = walls[Random.Range(0, walls.Length)];
                 myPos = new Vector3(initialPos.x + (j * wallLength), initialYPos, initialPos.z + (i * wallLength) - wallLength);
-                tempWall = Instantiate(walls[Random.Range(0, walls.Length)], myPos, Quaternion.Euler(0.0f, 90.0f, 0.0f)) as GameObject;
+                Quaternion wallRotation = Quaternion.Euler(0.0f, 90f, 0.0f);
+                if (i == 0)
+                    wallRotation = Quaternion.Euler(0.0f, 270f, 0.0f);
+                tempWall = Instantiate(wallType, myPos, wallRotation) as GameObject;
                 tempWall.transform.parent = wallHolder.transform;
             }
         }
+
+        const float CORNERHEIGHT = -0.384f;
+        Debug.Log(initialPos.x); // 1, 1: 0.5, 0.5 // 2, 2: -0.5, -0.5 // 3, 3: -0.5, -0.5 // 4, 4: -1.5, -1.5  
+        Debug.Log(initialPos.z);
+        // Top right
+        Instantiate(outerWallCorner, new Vector3(initialPos.x - wallLength / 2, CORNERHEIGHT, initialPos.z - wallLength), Quaternion.identity);
+        // Top left
+        Instantiate(outerWallCorner, new Vector3(initialPos.x + (xSize * wallLength - wallLength / 2), CORNERHEIGHT, initialPos.z - wallLength), Quaternion.Euler(0.0f, 270f, 0.0f));
+        // Bottom right
+        Instantiate(outerWallCorner, new Vector3(initialPos.x - wallLength / 2, CORNERHEIGHT, initialPos.z + (ySize * wallLength - wallLength)), Quaternion.Euler(0.0f, 90f, 0.0f));
+        // Bottom left
+        Instantiate(outerWallCorner, new Vector3(initialPos.x + (xSize * wallLength - wallLength / 2), CORNERHEIGHT, initialPos.z + (ySize * wallLength - wallLength)), Quaternion.Euler(0.0f, 180f, 0.0f));
+
 
         floor = Instantiate(floor, new Vector3(initialPos.x + ((xSize * wallLength - wallLength)/2), -0.4f, initialPos.z + ((ySize * wallLength) / 2 - wallLength)), Quaternion.identity);
         Transform floorTransform = floor.GetComponent<Transform>();
