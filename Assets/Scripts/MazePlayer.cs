@@ -7,33 +7,28 @@ using UnityEngine.EventSystems;
 
 using Gvr.Internal;
 
-public class MazePlayer : MonoBehaviour {
+public class MazePlayer : MovingThing {
 
-    Rigidbody rb;
     Transform playerTransform;
     GameObject mainCamera;
     GameObject player;
     GameManager gameManager;
-    const float SPEED = 1f;
-    const int ENEMYTIMERDAMAGE = 10;
 
     void Start()
     {
         mainCamera = GameObject.Find("PlayerCamera");
         player = GameObject.Find("PlayerContainer");
-        rb = GetComponent<Rigidbody>();
-        playerTransform = GetComponent<Transform>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        player.GetComponent<Transform>().position = new Vector3(playerTransform.position.x, playerTransform.position.y, playerTransform.position.z);
-        player.GetComponent<Transform>().rotation = playerTransform.rotation;
+        player.GetComponent<Transform>().position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        player.GetComponent<Transform>().rotation = transform.rotation;
 
         if (GvrControllerInput.ClickButton)
-            JustMove();
+            MoveForward();
         else if (GvrControllerInput.AppButton)
             gameManager.RestartCurrentLevel();
         else
@@ -48,7 +43,7 @@ public class MazePlayer : MonoBehaviour {
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
-            Damaged(collision.gameObject.GetComponent<EnemyScript>().GetDamageAmount());
+            Damaged(collision.gameObject.GetComponent<EnemyThing>().GetDamageAmount());
             Invoke("DamageOver", 0.2f);
         }
     }
@@ -64,16 +59,14 @@ public class MazePlayer : MonoBehaviour {
         player.GetComponent<Light>().enabled = false;
     }
 
-    private void JustMove()
+    override protected Vector3 GetForward()
     {
-        Vector3 newPosition = playerTransform.position + mainCamera.GetComponent<Transform>().transform.forward * SPEED * Time.deltaTime;
-        playerTransform.position = new Vector3(newPosition.x, playerTransform.position.y, newPosition.z);
+        return mainCamera.GetComponent<Transform>().transform.forward;
     }
 
     public void ResetMovement()
     {
-        playerTransform.position = playerTransform.position;
-        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
     }
 
 }
