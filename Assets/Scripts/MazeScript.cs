@@ -18,6 +18,8 @@ public class MazeScript : MonoBehaviour
     float wallLength = 1.0f;
     private float initialYPos = 0f;
     const float CORNERHEIGHT = -0.384f;
+    const float FLOORHEIGHT = -0.4f;
+    const float ROOFHEIGHT = 0.4f;
     int xSize = 3;
     int ySize = 3;
     Vector3 initialPos;
@@ -54,7 +56,7 @@ public class MazeScript : MonoBehaviour
             if (!teleporterSwitchedOff)
             {
                 Destroy(goal);
-                goal = Instantiate(start, new Vector3(initialPos.x + (xSize * wallLength) - wallLength, -0.4f, initialPos.z + (ySize * wallLength) - (wallLength * 1.5f)), Quaternion.identity) as GameObject;
+                goal = Instantiate(start, new Vector3(initialPos.x + (xSize * wallLength) - wallLength, FLOORHEIGHT, initialPos.z + (ySize * wallLength) - (wallLength * 1.5f)), Quaternion.identity) as GameObject;
                 teleporterSwitchedOff = true;
             }
         }
@@ -66,7 +68,7 @@ public class MazeScript : MonoBehaviour
 
     void AddPowerUp()
     {
-        powerUp = Instantiate(powerUp, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength / 2), 0f, initialPos.z + (Random.Range(0, ySize) * wallLength / 2)), Quaternion.identity) as GameObject;
+        powerUp = Instantiate(powerUp, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength) / 2, 0f, initialPos.z + (Random.Range(0, ySize) * wallLength) / 2), Quaternion.identity) as GameObject;
     }
 
     void AddEnemies()
@@ -76,7 +78,7 @@ public class MazeScript : MonoBehaviour
             numberOfEnemies = enemies.Length;
         for (int i = 0; i <= numberOfEnemies; i++)
         {
-            enemies[i] = Instantiate(enemy, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength / 2), -0.41f, initialPos.z + (Random.Range(0, ySize) * wallLength / 2)), Quaternion.identity) as GameObject;
+            enemies[i] = Instantiate(enemy, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength / 2), FLOORHEIGHT, initialPos.z + (Random.Range(0, ySize) * wallLength / 2)), Quaternion.identity) as GameObject;
         }
     }
 
@@ -124,6 +126,14 @@ public class MazeScript : MonoBehaviour
             }
         }
 
+        CreateFloor();
+        CreateRoof();
+        CreateCorners();
+        CreateCells();
+    }
+
+    void CreateCorners()
+    {
         // Top right
         Instantiate(outerWallCorner, new Vector3(initialPos.x - wallLength / 2, CORNERHEIGHT, initialPos.z - wallLength), Quaternion.identity);
         // Top left
@@ -132,17 +142,20 @@ public class MazeScript : MonoBehaviour
         Instantiate(outerWallCorner, new Vector3(initialPos.x - wallLength / 2, CORNERHEIGHT, initialPos.z + (ySize * wallLength - wallLength)), Quaternion.Euler(0.0f, 90f, 0.0f));
         // Bottom left
         Instantiate(outerWallCorner, new Vector3(initialPos.x + (xSize * wallLength - wallLength / 2), CORNERHEIGHT, initialPos.z + (ySize * wallLength - wallLength)), Quaternion.Euler(0.0f, 180f, 0.0f));
+    }
 
-
-        floor = Instantiate(floor, new Vector3(initialPos.x + ((xSize * wallLength - wallLength)/2), -0.4f, initialPos.z + ((ySize * wallLength) / 2 - wallLength)), Quaternion.identity);
+    void CreateFloor()
+    {
+        floor = Instantiate(floor, new Vector3(initialPos.x + ((xSize * wallLength - wallLength) / 2), FLOORHEIGHT, initialPos.z + ((ySize * wallLength) / 2 - wallLength)), Quaternion.identity);
         Transform floorTransform = floor.GetComponent<Transform>();
         floorTransform.localScale = new Vector3((xSize * wallLength) / 10, floorTransform.localScale.y, (ySize * wallLength) / 10);
+    }
 
+    void CreateRoof()
+    {
         roof = Instantiate(roof, new Vector3(initialPos.x + ((xSize * wallLength - wallLength) / 2), 0.4f, initialPos.z + ((ySize * wallLength) / 2 - wallLength)), Quaternion.identity);
         Transform roofTransform = roof.GetComponent<Transform>();
-        roofTransform.localScale = new Vector3((xSize * wallLength) / 10, floorTransform.localScale.y, (ySize * wallLength) / 10);
-
-        CreateCells();
+        roofTransform.localScale = new Vector3((xSize * wallLength) / 10, roofTransform.localScale.y, (ySize * wallLength) / 10);
     }
 
     void CreateCells()
@@ -216,9 +229,9 @@ public class MazeScript : MonoBehaviour
                 cells[currentCell].Visited();
                 visitedCells++;
                 startedBuilding = true;
-                goal = Instantiate(goal, new Vector3(initialPos.x + (xSize * wallLength) - wallLength, -0.4f, initialPos.z + (ySize * wallLength) - (wallLength * 1.5f)), Quaternion.identity) as GameObject;
+                goal = Instantiate(goal, new Vector3(initialPos.x + (xSize * wallLength) - wallLength, FLOORHEIGHT, initialPos.z + (ySize * wallLength) - (wallLength * 1.5f)), Quaternion.identity) as GameObject;
                 goal.name = "Goal";
-                start = Instantiate(start, new Vector3(initialPos.x + (1 * wallLength) - wallLength, -0.4f, initialPos.z + (1 * wallLength) - (wallLength * 1.5f)), Quaternion.identity) as GameObject;
+                start = Instantiate(start, new Vector3(initialPos.x + (1 * wallLength) - wallLength, FLOORHEIGHT, initialPos.z + (1 * wallLength) - (wallLength * 1.5f)), Quaternion.identity) as GameObject;
             }
         }
     }
