@@ -11,6 +11,8 @@ TagManager:
   - GameOverUI
   - GlassPanel
   - LevelUIText
+  - Wall
+  - Enemy
   layers:
   - Default
   - TransparentFX

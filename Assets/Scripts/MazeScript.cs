@@ -14,6 +14,7 @@ public class MazeScript : MonoBehaviour
     [SerializeField] GameObject roof;
     [SerializeField] GameObject start;
     [SerializeField] GameObject powerUp;
+    [SerializeField] GameObject enemy;
     float wallLength = 1.0f;
     private float initialYPos = 0f;
     const float CORNERHEIGHT = -0.384f;
@@ -21,7 +22,8 @@ public class MazeScript : MonoBehaviour
     int ySize = 3;
     Vector3 initialPos;
     GameObject wallHolder;
-    GameObject gameManager;
+    GameManager gameManager;
+    GameObject[] enemies = new GameObject[8];
     Cell[] cells;
     private int currentCell = 12;
     private int totalCells = 0;
@@ -37,16 +39,17 @@ public class MazeScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        gameManager = GameObject.Find("GameManager");
-        xSize = gameManager.GetComponent<GameManager>().GetNextLevelXSize();
-        ySize = gameManager.GetComponent<GameManager>().GetNextLevelYSize();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        xSize = gameManager.GetNextLevelXSize();
+        ySize = gameManager.GetNextLevelYSize();
         CreateWalls();
         AddPowerUp();
+        AddEnemies();
     }
 
     private void FixedUpdate()
     {
-        if (gameManager.GetComponent<GameManager>().GameIsOver())
+        if (gameManager.GameIsOver())
         {
             if (!teleporterSwitchedOff)
             {
@@ -63,7 +66,18 @@ public class MazeScript : MonoBehaviour
 
     void AddPowerUp()
     {
-        powerUp = Instantiate(powerUp, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength), 0f, initialPos.z + (Random.Range(0, ySize) * wallLength)), Quaternion.identity) as GameObject;
+        powerUp = Instantiate(powerUp, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength / 2), 0f, initialPos.z + (Random.Range(0, ySize) * wallLength / 2)), Quaternion.identity) as GameObject;
+    }
+
+    void AddEnemies()
+    {
+        int numberOfEnemies = Mathf.RoundToInt(gameManager.GetCurrentLevel() / 3);
+        if (numberOfEnemies > enemies.Length)
+            numberOfEnemies = enemies.Length;
+        for (int i = 0; i <= numberOfEnemies; i++)
+        {
+            enemies[i] = Instantiate(enemy, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength / 2), -0.41f, initialPos.z + (Random.Range(0, ySize) * wallLength / 2)), Quaternion.identity) as GameObject;
+        }
     }
 
     void CreateWalls()

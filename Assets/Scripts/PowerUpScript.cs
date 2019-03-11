@@ -6,12 +6,12 @@ public class PowerUpScript : MonoBehaviour {
 
     Vector3 pastPosition;
     Quaternion pastRotation;
-    GameObject gameManager;
+    GameManager gameManager;
     const float POWERUPTIME = 30.0f;
 
     void Start()
     {
-        gameManager = GameObject.Find("GameManager");
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void OnTriggerEnter(Collider collision)
@@ -30,7 +30,7 @@ public class PowerUpScript : MonoBehaviour {
             Destroy(gameObject);
             collision.gameObject.GetComponent<Transform>().position = pastPosition;
             collision.gameObject.GetComponent<Transform>().rotation = pastRotation;
-            gameManager.GetComponent<GameManager>().PowerUpFound();
+            gameManager.PowerUpFound();
         }
     }
 }

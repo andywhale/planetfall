@@ -20,7 +20,14 @@ public class TimerScript : MonoBehaviour {
     {
         timerImage = gameObject.GetComponent<Image>();
         timerTime = currentTime;
-        timerImage.fillAmount = timerTime / maxTime;
+        if (timerTime <= 0)
+        {
+            timerImage.fillAmount = 0;
+        }
+        else
+        {
+            timerImage.fillAmount = timerTime / maxTime;
+        }
         if (currentTime < (maxTime / 100) * 30)
         {
             SetAsDanger();

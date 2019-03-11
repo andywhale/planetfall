@@ -13,8 +13,9 @@ public class MazePlayer : MonoBehaviour {
     Transform playerTransform;
     GameObject mainCamera;
     GameObject player;
-    GameObject gameManager;
+    GameManager gameManager;
     const float SPEED = 1f;
+    const int ENEMYTIMERDAMAGE = 10;
 
     void Start()
     {
@@ -22,7 +23,7 @@ public class MazePlayer : MonoBehaviour {
         player = GameObject.Find("PlayerContainer");
         rb = GetComponent<Rigidbody>();
         playerTransform = GetComponent<Transform>();
-        gameManager = GameObject.Find("GameManager");
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -34,7 +35,7 @@ public class MazePlayer : MonoBehaviour {
         if (GvrControllerInput.ClickButton)
             JustMove();
         else if (GvrControllerInput.AppButton)
-            gameManager.GetComponent<GameManager>().RestartCurrentLevel();
+            gameManager.RestartCurrentLevel();
         else
             ResetMovement();
     }
@@ -43,8 +44,24 @@ public class MazePlayer : MonoBehaviour {
     {
         if (collision.gameObject.name == "Goal")
         {
-            gameManager.GetComponent<GameManager>().NextLevel();
+            gameManager.NextLevel();
         }
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Damaged(collision.gameObject.GetComponent<EnemyScript>().GetDamageAmount());
+            Invoke("DamageOver", 0.2f);
+        }
+    }
+
+    private void Damaged(int damageTime)
+    {
+        gameManager.ReduceTime(damageTime);
+        player.GetComponent<Light>().enabled = true;
+    }
+
+    private void DamageOver()
+    {
+        player.GetComponent<Light>().enabled = false;
     }
 
     private void JustMove()

@@ -82,8 +82,13 @@ public class GameManager : MonoBehaviour
         else
         {
             timer -= Time.deltaTime;
-            UpdateTimerUI();
         }
+        UpdateTimerUI();
+    }
+
+    public void ReduceTime(int timeToReduceBy)
+    {
+        timer -= timeToReduceBy;
     }
 
     public void IncreaseTime()
