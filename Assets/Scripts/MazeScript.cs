@@ -7,18 +7,18 @@ public class MazeScript : MonoBehaviour
 {
     [SerializeField] GameObject[] walls = new GameObject[4];
     [SerializeField] GameObject outerWall;
-    [SerializeField] GameObject outerWallCorner;
+    [SerializeField] GameObject outerWallCorner = null;
     [SerializeField] GameObject player;
-    [SerializeField] GameObject goal;
+    [SerializeField] GameObject goal = null;
     [SerializeField] GameObject floor;
-    [SerializeField] GameObject roof;
-    [SerializeField] GameObject start;
-    [SerializeField] GameObject powerUp;
-    [SerializeField] GameObject enemy;
+    [SerializeField] GameObject roof = null;
+    [SerializeField] GameObject start = null;
+    [SerializeField] GameObject powerUp = null;
+    [SerializeField] GameObject enemy = null;
     float wallLength = 1.0f;
     private float initialYPos = 0f;
     const float CORNERHEIGHT = -0.384f;
-    const float FLOORHEIGHT = -0.4f;
+    const float FLOORHEIGHT = -0.41f;
     const float ROOFHEIGHT = 0.4f;
     int xSize = 3;
     int ySize = 3;
@@ -45,8 +45,8 @@ public class MazeScript : MonoBehaviour
         xSize = gameManager.GetNextLevelXSize();
         ySize = gameManager.GetNextLevelYSize();
         CreateWalls();
-        AddPowerUp();
-        AddEnemies();
+        CreateFloor();
+        CreateRoof();
     }
 
     private void FixedUpdate()
@@ -68,17 +68,23 @@ public class MazeScript : MonoBehaviour
 
     void AddPowerUp()
     {
-        powerUp = Instantiate(powerUp, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength) / 2, 0f, initialPos.z + (Random.Range(0, ySize) * wallLength) / 2), Quaternion.identity) as GameObject;
+        if (powerUp != null)
+        {
+            powerUp = Instantiate(powerUp, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength) / 2, 0f, initialPos.z + (Random.Range(0, ySize) * wallLength) / 2), Quaternion.identity) as GameObject;
+        }
     }
 
     void AddEnemies()
     {
-        int numberOfEnemies = Mathf.RoundToInt(gameManager.GetCurrentLevel() / 3);
-        if (numberOfEnemies > enemies.Length)
-            numberOfEnemies = enemies.Length;
-        for (int i = 0; i <= numberOfEnemies; i++)
+        if (enemy != null)
         {
-            enemies[i] = Instantiate(enemy, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength / 2), FLOORHEIGHT, initialPos.z + (Random.Range(0, ySize) * wallLength / 2)), Quaternion.identity) as GameObject;
+            int numberOfEnemies = Mathf.RoundToInt(gameManager.GetCurrentLevel() / 3);
+            if (numberOfEnemies > enemies.Length)
+                numberOfEnemies = enemies.Length;
+            for (int i = 0; i <= numberOfEnemies; i++)
+            {
+                enemies[i] = Instantiate(enemy, new Vector3(initialPos.x + (Random.Range(0, xSize) * wallLength / 2), FLOORHEIGHT, initialPos.z + (Random.Range(0, ySize) * wallLength / 2)), Quaternion.identity) as GameObject;
+            }
         }
     }
 
@@ -126,36 +132,42 @@ public class MazeScript : MonoBehaviour
             }
         }
 
-        CreateFloor();
-        CreateRoof();
-        CreateCorners();
         CreateCells();
     }
 
     void CreateCorners()
     {
-        // Top right
-        Instantiate(outerWallCorner, new Vector3(initialPos.x - wallLength / 2, CORNERHEIGHT, initialPos.z - wallLength), Quaternion.identity);
-        // Top left
-        Instantiate(outerWallCorner, new Vector3(initialPos.x + (xSize * wallLength - wallLength / 2), CORNERHEIGHT, initialPos.z - wallLength), Quaternion.Euler(0.0f, 270f, 0.0f));
-        // Bottom right
-        Instantiate(outerWallCorner, new Vector3(initialPos.x - wallLength / 2, CORNERHEIGHT, initialPos.z + (ySize * wallLength - wallLength)), Quaternion.Euler(0.0f, 90f, 0.0f));
-        // Bottom left
-        Instantiate(outerWallCorner, new Vector3(initialPos.x + (xSize * wallLength - wallLength / 2), CORNERHEIGHT, initialPos.z + (ySize * wallLength - wallLength)), Quaternion.Euler(0.0f, 180f, 0.0f));
+        if (outerWallCorner != null)
+        {
+            // Top right
+            Instantiate(outerWallCorner, new Vector3(initialPos.x - wallLength / 2, CORNERHEIGHT, initialPos.z - wallLength), Quaternion.identity);
+            // Top left
+            Instantiate(outerWallCorner, new Vector3(initialPos.x + (xSize * wallLength - wallLength / 2), CORNERHEIGHT, initialPos.z - wallLength), Quaternion.Euler(0.0f, 270f, 0.0f));
+            // Bottom right
+            Instantiate(outerWallCorner, new Vector3(initialPos.x - wallLength / 2, CORNERHEIGHT, initialPos.z + (ySize * wallLength - wallLength)), Quaternion.Euler(0.0f, 90f, 0.0f));
+            // Bottom left
+            Instantiate(outerWallCorner, new Vector3(initialPos.x + (xSize * wallLength - wallLength / 2), CORNERHEIGHT, initialPos.z + (ySize * wallLength - wallLength)), Quaternion.Euler(0.0f, 180f, 0.0f));
+        }
     }
 
     void CreateFloor()
     {
-        floor = Instantiate(floor, new Vector3(initialPos.x + ((xSize * wallLength - wallLength) / 2), FLOORHEIGHT, initialPos.z + ((ySize * wallLength) / 2 - wallLength)), Quaternion.identity);
-        Transform floorTransform = floor.GetComponent<Transform>();
-        floorTransform.localScale = new Vector3((xSize * wallLength) / 10, floorTransform.localScale.y, (ySize * wallLength) / 10);
+        if (floor != null)
+        {
+            floor = Instantiate(floor, new Vector3(initialPos.x + ((xSize * wallLength - wallLength) / 2), FLOORHEIGHT, initialPos.z + ((ySize * wallLength) / 2 - wallLength)), Quaternion.identity);
+            Transform floorTransform = floor.GetComponent<Transform>();
+            floorTransform.localScale = new Vector3((xSize * wallLength) / 10, floorTransform.localScale.y, (ySize * wallLength) / 10);
+        }
     }
 
     void CreateRoof()
     {
-        roof = Instantiate(roof, new Vector3(initialPos.x + ((xSize * wallLength - wallLength) / 2), 0.4f, initialPos.z + ((ySize * wallLength) / 2 - wallLength)), Quaternion.identity);
-        Transform roofTransform = roof.GetComponent<Transform>();
-        roofTransform.localScale = new Vector3((xSize * wallLength) / 10, roofTransform.localScale.y, (ySize * wallLength) / 10);
+        if (roof != null)
+        {
+            roof = Instantiate(roof, new Vector3(initialPos.x + ((xSize * wallLength - wallLength) / 2), 0.4f, initialPos.z + ((ySize * wallLength) / 2 - wallLength)), Quaternion.identity);
+            Transform roofTransform = roof.GetComponent<Transform>();
+            roofTransform.localScale = new Vector3((xSize * wallLength) / 10, roofTransform.localScale.y, (ySize * wallLength) / 10);
+        }
     }
 
     void CreateCells()
@@ -245,15 +257,17 @@ public class MazeScript : MonoBehaviour
     {
         int length = 0;
         int[] neighbours = new int[4];
-        int check = 0;
-        check = ((currentCell + 1) / xSize);
-        check -= 1;
-        check *= xSize;
-        check += xSize;
+        int currentRowLastCell = 0;
+        currentRowLastCell = ((currentCell + 1) / xSize);
+        currentRowLastCell -= 1;
+        currentRowLastCell *= xSize;
+        currentRowLastCell += xSize;
+
         string[] wallsToBreak = new string[4];
 
-        // East
-        if (currentCell + 1 < totalCells && (currentCell + 1) != check)
+        // Break the East Wall
+        // If the next cell is less than the total cells and its not the last on the row
+        if (currentCell + 1 < totalCells && (currentCell + 1) != currentRowLastCell)
         {
             if (cells[currentCell + 1].NotVisited())
             {
@@ -263,8 +277,9 @@ public class MazeScript : MonoBehaviour
             }
         }
 
-        // West
-        if (currentCell - 1 >= 0 && currentCell != check)
+        // Break the West Wall
+        // If the previous cell is greater than 0 and not the last cell on the previous row
+        if (currentCell - 1 >= 0 && currentCell != currentRowLastCell)
         {
             if (cells[currentCell - 1].NotVisited())
             {
@@ -274,7 +289,8 @@ public class MazeScript : MonoBehaviour
             }
         }
 
-        // North
+        // Break the North Wall
+        // If the current cell + the length of a row is not greater than the total cells
         if (currentCell + xSize < totalCells)
         {
             if (cells[currentCell + xSize].NotVisited())
@@ -285,7 +301,8 @@ public class MazeScript : MonoBehaviour
             }
         }
 
-        // South
+        // Break the South Wall
+        // If the current cell - the length of a row is not less than 0
         if (currentCell - xSize >= 0)
         {
             if (cells[currentCell - xSize].NotVisited())
@@ -296,8 +313,8 @@ public class MazeScript : MonoBehaviour
             }
         }
 
-
-
+        // Pick one of the available walls to break at random and break it
+        // and then move into it
         if (length > 0)
         {
             int nextCell = Random.Range(0, length);
