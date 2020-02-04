@@ -28,11 +28,16 @@ public class MazePlayer : MovingThing {
         player.GetComponent<Transform>().rotation = transform.rotation;
 
         if (GvrControllerInput.ClickButton)
-            MoveForward();
+            Debug.Log("CLICKED");//MoveForward();
         else if (GvrControllerInput.AppButton)
             gameManager.RestartCurrentLevel();
         else
             ResetMovement();
+    }
+
+    public void JumpPointActive()
+    {
+        Debug.Log("JUMP ACTIVE");
     }
 
     void OnCollisionEnter(Collision collision)

@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     private int nextYSize = 4;
 
     private float TIMERMAX = 180.0f;
-    private float timer = 40.0f;
+    private float timer = 60.0f;
     private int level = 1;
     private int currentScore;
 
@@ -38,6 +39,13 @@ public class GameManager : MonoBehaviour
         timer = levelStartTime;
         gameOver = false;
         ReloadMaze();
+    }
+
+    public void JumpPointSelected(GameObject obj, PointerEventData pointerEventData)
+    {
+        Debug.Log(pointerEventData.pointerEnter);
+        //obj.GetComponent<JumpScript>().Highlight();
+
     }
 
     public int GetCurrentLevel()

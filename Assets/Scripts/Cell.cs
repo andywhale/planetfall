@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cell
 {
@@ -9,10 +10,16 @@ public class Cell
     GameObject south;
     GameObject east;
     GameObject west;
+    GameObject jumpPoint;
 
     public void SetNorth(GameObject allocatedNorth)
     {
         north = allocatedNorth;
+    }
+
+    public GameObject GetNorthWall()
+    {
+        return north;
     }
 
     public void SetSouth(GameObject allocatedSouth)
@@ -28,6 +35,16 @@ public class Cell
     public void SetWest(GameObject allocatedWest)
     {
         west = allocatedWest;
+    }
+
+    public void SetJumpPoint(GameObject allocatedJumpPoint)
+    {
+        jumpPoint = allocatedJumpPoint;
+    }
+
+    public GameObject GetJumpPoint()
+    {
+        return jumpPoint;
     }
 
     public bool IsVisited()
@@ -49,11 +66,31 @@ public class Cell
     {
         switch (wallToBreak)
         {
-            case "North": return (north); break;
-            case "South": return (south); break;
-            case "East": return (east); break;
-            default: return (west); break;
+            case "North": return (north);
+            case "South": return (south);
+            case "East": return (east);
+            default: return (west);
         }
+    }
+
+    public string getNorthName()
+    {
+        return north.name;
+    }
+
+    public string getSouthName()
+    {
+        return south.name;
+    }
+
+    public string getEastName()
+    {
+        return east.name;
+    }
+
+    public string getWestName()
+    {
+        return west.name;
     }
 
 }

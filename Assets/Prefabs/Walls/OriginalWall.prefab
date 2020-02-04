@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23741339778747678}
   - component: {fileID: 65628931804308918}
   - component: {fileID: 54752450962167078}
+  - component: {fileID: 114008642196753474}
   m_Layer: 0
   m_Name: OriginalWall
   m_TagString: Wall
@@ -112,3 +113,27 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114008642196753474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1463478574483916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7abbac048f81d44bafe6a4fb1135b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderBased: 0
+  permanent: 0
+  lineColor: {r: 0, g: 0, b: 0, a: 1}
+  colliderBound:
+    m_Center: {x: -7.9809065, y: -5.5450363, z: -5.5017157}
+    m_Extent: {x: 0.05000019, y: 0.4000001, z: 0.5}
+  colliderBoundOffset: {x: 0, y: 0, z: 0}
+  meshBound:
+    m_Center: {x: -7.9809065, y: -5.5450363, z: -5.5017157}
+    m_Extent: {x: 0.05000019, y: 0.4000001, z: 0.5}
+  meshBoundOffset: {x: 0, y: 0, z: 0}
+  setupOnAwake: 0
+  startingScale: {x: 0.1, y: 0.8, z: 1}

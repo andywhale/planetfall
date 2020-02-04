@@ -15,6 +15,9 @@ public class MazeScript : MonoBehaviour
     [SerializeField] GameObject start = null;
     [SerializeField] GameObject powerUp = null;
     [SerializeField] GameObject enemy = null;
+    [SerializeField] GameObject move = null;
+    string[] activeWalls;
+    int wallCount;
     float wallLength = 1.0f;
     private float initialYPos = 0f;
     const float CORNERHEIGHT = -0.384f;
@@ -90,6 +93,7 @@ public class MazeScript : MonoBehaviour
 
     void CreateWalls()
     {
+        activeWalls = new string[xSize * ySize * 4];
         wallHolder = new GameObject();
         wallHolder.name = "Maze";
 
@@ -112,6 +116,9 @@ public class MazeScript : MonoBehaviour
                     wallRotation = Quaternion.Euler(0.0f, 180f, 0.0f);
                 tempWall = Instantiate(wallType, myPos, wallRotation) as GameObject;
                 tempWall.transform.parent = wallHolder.transform;
+                tempWall.name = "Wall_" + i + "_" + j + "_R";
+                activeWalls[wallCount] = tempWall.name;
+                wallCount++;
             }
         }
 
@@ -129,6 +136,9 @@ public class MazeScript : MonoBehaviour
                     wallRotation = Quaternion.Euler(0.0f, 270f, 0.0f);
                 tempWall = Instantiate(wallType, myPos, wallRotation) as GameObject;
                 tempWall.transform.parent = wallHolder.transform;
+                tempWall.name = "Wall_" + i + "_" + j;
+                activeWalls[wallCount] = tempWall.name;
+                wallCount++;
             }
         }
 
@@ -205,7 +215,9 @@ public class MazeScript : MonoBehaviour
             childProcess++;
 
             cells[cellProcess].SetEast(allWalls[eastWestProcess]);
-            cells[cellProcess].SetNorth(allWalls[(childProcess + (xSize + 1) * ySize) + xSize - 1]);
+            GameObject northWall = allWalls[(childProcess + (xSize + 1) * ySize) + xSize - 1];
+            cells[cellProcess].SetNorth(northWall);
+            cells[cellProcess].SetJumpPoint(Instantiate(move, new Vector3(northWall.transform.position.x, 0, northWall.transform.position.z - (wallLength / 2)), Quaternion.identity));
         }
 
         totalCells = xSize * ySize;
@@ -215,6 +227,7 @@ public class MazeScript : MonoBehaviour
 
     void CreateMaze()
     {
+        string[] removedWalls = new string[xSize * ySize];
         while (visitedCells < totalCells)
         {
             if (startedBuilding)
@@ -222,11 +235,18 @@ public class MazeScript : MonoBehaviour
                 FindNeighbour();
                 if (cells[currentNeighbour].NotVisited() && cells[currentCell].IsVisited())
                 {
-                    BreakWall();
+                    // Destroy the neighbouring wall.
+                    GameObject wallToDestroy = cells[currentCell].GetWallToBreak(wallToBreak);
+                    RemoveActiveWallByName(wallToDestroy.name);
+                    Destroy(wallToDestroy);
+                    // Mark the neighbour as visited.
                     cells[currentNeighbour].Visited();
                     visitedCells++;
+                    // Add the current cell to the list of visited cells.
                     lastCells.Add(currentCell);
+                    // Move to the neighbour.
                     currentCell = currentNeighbour;
+                    // If all cells are visited then back-up.
                     if (lastCells.Count > 0)
                     {
                         backingUp = lastCells.Count - 1;
@@ -246,11 +266,59 @@ public class MazeScript : MonoBehaviour
                 start = Instantiate(start, new Vector3(initialPos.x + (1 * wallLength) - wallLength, FLOORHEIGHT, initialPos.z + (1 * wallLength) - (wallLength * 1.5f)), Quaternion.identity) as GameObject;
             }
         }
+
+        for (int i = 0; i < cells.Length; i++)
+        {
+            Debug.Log("Cell: " + i);
+            if (IsACorridor(cells[i]))
+            {
+                Destroy(cells[i].GetJumpPoint());
+            }
+        }
     }
 
-    void BreakWall()
+    public bool IsACorridor(Cell cell)
     {
-        Destroy(cells[currentCell].GetWallToBreak(wallToBreak));
+        bool northExists = ActiveWallExists(cell.getNorthName());
+        Debug.Log("N:" + northExists);
+        bool southExists = ActiveWallExists(cell.getSouthName());
+        Debug.Log("S:" + southExists);
+        bool westExists = ActiveWallExists(cell.getWestName());
+        Debug.Log("W:" + westExists);
+        bool eastExists = ActiveWallExists(cell.getEastName());
+        Debug.Log("E:" + eastExists);
+        Debug.Log((northExists && southExists && !eastExists && !westExists) ||
+            (!northExists && !southExists && eastExists && westExists));
+        return ((northExists && southExists && !eastExists && !westExists) ||
+            (!northExists && !southExists && eastExists && westExists));
+    }
+
+    public void RemoveActiveWallByName(string wallName)
+    {
+        string[] tempActiveWalls = new string[activeWalls.Length];
+        int i = 0;
+        foreach (string x in activeWalls)
+        {
+            if (wallName != x)
+            {
+                tempActiveWalls[i] = x;
+                i++;
+            }
+        }
+        activeWalls = tempActiveWalls;
+    }
+
+    public bool ActiveWallExists(string wallName)
+    {
+        Debug.Log("Checking: " + wallName);
+        foreach (string x in activeWalls)
+        {
+            if (wallName == x)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     void FindNeighbour()
